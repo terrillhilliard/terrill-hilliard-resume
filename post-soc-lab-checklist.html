@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Building a Home SOC Lab: A Practical Starting Checklist — Terrill Hilliard</title>
+<meta name="description" content="What actually matters when you spin up Elastic SIEM and Kali Linux for a home SOC lab — ingestion, detection rules, and avoiding a lab that just sits there looking impressive.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="nav-wrap">
+  <nav class="nav">
+    <a href="index.html#top" class="brand">
+      <svg class="brand-mark" viewBox="0 0 100 100" aria-hidden="true"><path d="M15,20 H85 M50,20 V85" stroke-linecap="round"/></svg>
+      <span>TERRILL HILLIARD</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html#about">About</a>
+      <a href="index.html#experience">Experience</a>
+      <a href="index.html#skills">Skills</a>
+      <a href="index.html#projects">Projects</a>
+      <a href="blog.html">Blog</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+    <a class="pill-btn nav-cta" href="index.html#contact">Apply Now</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div class="nav-mobile" id="navMobile">
+    <a href="index.html#about">About</a>
+    <a href="index.html#experience">Experience</a>
+    <a href="index.html#skills">Skills</a>
+    <a href="index.html#projects">Projects</a>
+    <a href="blog.html">Blog</a>
+    <a href="index.html#contact">Contact</a>
+  </div>
+</header>
+
+<article class="article">
+  <a class="back-link" href="blog.html">&larr; Back to blog</a>
+  <span class="post-tag">Home Lab</span>
+  <h1 class="article-title">Building a Home SOC Lab: A Practical Starting Checklist</h1>
+  <p class="article-dek">What actually matters when you spin up Elastic SIEM and Kali Linux for the first time — and how to avoid building a lab that just sits there looking impressive.</p>
+
+  <div class="article-body">
+    <p>Every home SOC lab starts the same way: a fresh Elastic stack, a Kali box, and a lot of enthusiasm. Most of them stall out at the same point too — right after the install finishes and before any real logs start flowing. The gap between "I set up a SIEM" and "I can detect something" is where most of the learning actually happens.</p>
+
+    <p>Here's the order that's worked well for getting a lab from zero to genuinely useful, rather than a demo that only proves the software installed correctly.</p>
+
+    <h2>1. Start with one well-instrumented endpoint, not five</h2>
+    <p>It's tempting to spin up a whole network on day one. Resist it. A single Windows or Linux VM with Elastic Agent installed, forwarding logs into Elasticsearch, teaches you more than five under-configured hosts. Get comfortable with:</p>
+    <ul>
+      <li>What "normal" log volume looks like for that one host</li>
+      <li>Which data streams are actually populated (process, network, file, registry)</li>
+      <li>How long ingestion lag is under load</li>
+    </ul>
+
+    <h2>2. Ingest before you attack</h2>
+    <p>A common mistake is running an attack from Kali before confirming the target's logs are actually landing in the SIEM. Generate a known, benign event first — a failed login, a new scheduled task — and confirm you can find it. If you can't find the boring event, you won't find the attack either.</p>
+
+    <h2>3. Write detections against your own baseline</h2>
+    <p>Out-of-the-box detection rules are a good starting point, but the real skill is writing one from scratch against a signal you generated yourself. A simple, high-value first rule: alert on a process spawning from an unusual parent (e.g., <strong>winword.exe</strong> spawning <strong>powershell.exe</strong>). It's a classic macro-payload pattern, it's easy to simulate safely, and it teaches you how to read process-tree data in your SIEM of choice.</p>
+
+    <h2>4. Run the attack, then work backward</h2>
+    <p>Once ingestion and a baseline detection are working, use Kali to run something simple and well-documented — a Metasploit reverse shell or a basic reconnaissance scan — against the instrumented host. Then go find it in the SIEM without looking at the attack console first. That's the actual exercise: reconstructing what happened from logs alone, the same way you would during a real investigation.</p>
+
+    <h2>5. Keep a findings log</h2>
+    <p>Every lab session should end with a short written note: what you tested, what you saw, what you missed, and what you'd tune next. This is the single highest-leverage habit in the whole exercise — it's what turns "I played with a SIEM" into a body of documented, explainable work you can talk through in an interview.</p>
+
+    <h2>Where this leads</h2>
+    <p>A home lab built this way scales naturally into more advanced scenarios — lateral movement detection, persistence mechanisms, log correlation across multiple hosts — without ever feeling like a random pile of tools. The goal isn't a bigger lab. It's a lab you can explain, end to end, in plain language.</p>
+  </div>
+
+  <div class="article-cta">
+    <a class="pill-btn primary" href="index.html#contact">Get In Touch</a>
+    <a class="pill-btn ghost" href="blog.html">More Posts</a>
+  </div>
+</article>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <a href="index.html#top" class="brand">
+      <svg class="brand-mark" viewBox="0 0 100 100" aria-hidden="true"><path d="M15,20 H85 M50,20 V85" stroke-linecap="round"/></svg>
+      <span>TERRILL HILLIARD</span>
+    </a>
+    <div class="footer-cols">
+      <div>
+        <h4>Contact</h4>
+        <a href="mailto:terrillhilliard96@gmail.com">Email</a>
+        <a href="tel:8189340699">Phone</a>
+        <a href="https://linkedin.com/in/terrillhilliard" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+      <div>
+        <h4>Site</h4>
+        <a href="index.html#about">About</a>
+        <a href="index.html#experience">Experience</a>
+        <a href="index.html#skills">Skills</a>
+        <a href="index.html#projects">Projects</a>
+        <a href="blog.html">Blog</a>
+      </div>
+    </div>
+  </div>
+  <p class="footer-copy">&copy; 2026 Terrill Hilliard. All rights reserved.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

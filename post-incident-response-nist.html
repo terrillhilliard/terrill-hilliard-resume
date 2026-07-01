@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Incident Response in Practice: Applying NIST 800-61 on the Ground — Terrill Hilliard</title>
+<meta name="description" content="The four phases of the NIST incident response lifecycle are easy to memorize and hard to run under pressure. Notes on where teams actually lose time.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="nav-wrap">
+  <nav class="nav">
+    <a href="index.html#top" class="brand">
+      <svg class="brand-mark" viewBox="0 0 100 100" aria-hidden="true"><path d="M15,20 H85 M50,20 V85" stroke-linecap="round"/></svg>
+      <span>TERRILL HILLIARD</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html#about">About</a>
+      <a href="index.html#experience">Experience</a>
+      <a href="index.html#skills">Skills</a>
+      <a href="index.html#projects">Projects</a>
+      <a href="blog.html">Blog</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+    <a class="pill-btn nav-cta" href="index.html#contact">Apply Now</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div class="nav-mobile" id="navMobile">
+    <a href="index.html#about">About</a>
+    <a href="index.html#experience">Experience</a>
+    <a href="index.html#skills">Skills</a>
+    <a href="index.html#projects">Projects</a>
+    <a href="blog.html">Blog</a>
+    <a href="index.html#contact">Contact</a>
+  </div>
+</header>
+
+<article class="article">
+  <a class="back-link" href="blog.html">&larr; Back to blog</a>
+  <span class="post-tag">Incident Response</span>
+  <h1 class="article-title">Incident Response in Practice: Applying NIST 800-61 on the Ground</h1>
+  <p class="article-dek">The four phases of the NIST incident response lifecycle are easy to memorize and hard to run under pressure. Notes on where teams actually lose time.</p>
+
+  <div class="article-body">
+    <p>NIST 800-61 breaks incident response into four phases: <strong>Preparation</strong>, <strong>Detection &amp; Analysis</strong>, <strong>Containment, Eradication &amp; Recovery</strong>, and <strong>Post-Incident Activity</strong>. Every security certification covers this framework, and every real incident tests how well an organization actually lives it. The gap between knowing the phases and executing them under time pressure is where most incidents actually go sideways.</p>
+
+    <h2>Preparation is 80% of the outcome</h2>
+    <p>The phase that gets the least attention during an active incident is the one that determines how the other three go. Preparation isn't just having an IR plan document — it's having:</p>
+    <ul>
+      <li>Log retention that actually covers the lookback window you'll need</li>
+      <li>Contact lists that are current, not from the last tabletop exercise</li>
+      <li>Pre-approved containment actions (isolating a host, disabling an account) that don't require a chain of approvals mid-incident</li>
+    </ul>
+    <p>Teams that skip this step end up doing preparation work <em>during</em> detection and analysis, which is the most expensive possible time to do it.</p>
+
+    <h2>Detection &amp; Analysis: resist the urge to conclude early</h2>
+    <p>The most common mistake in this phase is anchoring on the first plausible explanation. A spike in outbound traffic from a finance workstation looks like exfiltration — and sometimes it's a scheduled backup job nobody documented. Good analysis means holding two or three hypotheses simultaneously until the log correlation actually rules one out. This is where SIEM tooling earns its keep: the question isn't "what triggered the alert," it's "what else was this host doing in the hour before and after."</p>
+
+    <h2>Containment: fast, but not final</h2>
+    <p>NIST separates containment into short-term and long-term for a reason. The instinct to immediately wipe and reimage a compromised host destroys evidence you may need later — for scoping, for legal, or for understanding whether the same technique is being used elsewhere in the environment. A practical short-term containment move (network isolation, credential revocation) buys time to do proper scoping before committing to eradication.</p>
+
+    <h2>Post-Incident Activity is where the next incident gets prevented</h2>
+    <p>This is the phase most likely to get skipped once the immediate pressure is off. A lessons-learned review that actually changes a detection rule, a runbook, or an access policy is worth more than the incident response itself — because it's the only phase that reduces the likelihood of the next one. If the post-incident review doesn't produce at least one concrete change, it wasn't a real review.</p>
+
+    <h2>The practical takeaway</h2>
+    <p>The framework is straightforward on paper. What separates a smooth response from a chaotic one is almost always preparation done in advance and discipline not to skip straight to containment before analysis is actually finished. Both are cultural habits, not technical ones — and they're the difference between an incident that gets contained in hours and one that reopens three weeks later.</p>
+  </div>
+
+  <div class="article-cta">
+    <a class="pill-btn primary" href="index.html#contact">Get In Touch</a>
+    <a class="pill-btn ghost" href="blog.html">More Posts</a>
+  </div>
+</article>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <a href="index.html#top" class="brand">
+      <svg class="brand-mark" viewBox="0 0 100 100" aria-hidden="true"><path d="M15,20 H85 M50,20 V85" stroke-linecap="round"/></svg>
+      <span>TERRILL HILLIARD</span>
+    </a>
+    <div class="footer-cols">
+      <div>
+        <h4>Contact</h4>
+        <a href="mailto:terrillhilliard96@gmail.com">Email</a>
+        <a href="tel:8189340699">Phone</a>
+        <a href="https://linkedin.com/in/terrillhilliard" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+      <div>
+        <h4>Site</h4>
+        <a href="index.html#about">About</a>
+        <a href="index.html#experience">Experience</a>
+        <a href="index.html#skills">Skills</a>
+        <a href="index.html#projects">Projects</a>
+        <a href="blog.html">Blog</a>
+      </div>
+    </div>
+  </div>
+  <p class="footer-copy">&copy; 2026 Terrill Hilliard. All rights reserved.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

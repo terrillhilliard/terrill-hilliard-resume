@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tier 2/3 Escalation Triage: A Framework for Prioritizing at Scale — Terrill Hilliard</title>
+<meta name="description" content="Running escalations for 260+ users means every ticket looks urgent. A simple framework for sorting signal from noise without burning out the queue.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="nav-wrap">
+  <nav class="nav">
+    <a href="index.html#top" class="brand">
+      <svg class="brand-mark" viewBox="0 0 100 100" aria-hidden="true"><path d="M15,20 H85 M50,20 V85" stroke-linecap="round"/></svg>
+      <span>TERRILL HILLIARD</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html#about">About</a>
+      <a href="index.html#experience">Experience</a>
+      <a href="index.html#skills">Skills</a>
+      <a href="index.html#projects">Projects</a>
+      <a href="blog.html">Blog</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+    <a class="pill-btn nav-cta" href="index.html#contact">Apply Now</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div class="nav-mobile" id="navMobile">
+    <a href="index.html#about">About</a>
+    <a href="index.html#experience">Experience</a>
+    <a href="index.html#skills">Skills</a>
+    <a href="index.html#projects">Projects</a>
+    <a href="blog.html">Blog</a>
+    <a href="index.html#contact">Contact</a>
+  </div>
+</header>
+
+<article class="article">
+  <a class="back-link" href="blog.html">&larr; Back to blog</a>
+  <span class="post-tag">IT Operations</span>
+  <h1 class="article-title">Tier 2/3 Escalation Triage: A Framework for Prioritizing at Scale</h1>
+  <p class="article-dek">Running escalations for 260+ users means every ticket looks urgent. A simple framework for sorting signal from noise without burning out the queue.</p>
+
+  <div class="article-body">
+    <p>When you're the Tier 2/3 escalation point for a few hundred users, the queue never actually looks calm. Every ticket is marked urgent by the person who filed it, because from where they're sitting, it is. The job isn't to make the queue feel calm — it's to consistently pick the right next ticket, fifty times a day, without relying on gut feel alone.</p>
+
+    <p>Here's the triage framework that's held up best under real volume.</p>
+
+    <h2>Sort by blast radius before severity</h2>
+    <p>A single VP's laptop not turning on feels urgent. A shared print server down for an entire warehouse floor <em>is</em> urgent — even if it reads as a lower-priority ticket in the system. The first triage question should never be "how upset is this person," it should be "how many people, or how much revenue-generating activity, is currently blocked." Blast radius beats seniority almost every time.</p>
+
+    <h2>Separate "broken" from "blocked"</h2>
+    <p>These get treated the same in most queues and shouldn't be. A broken system might have no workaround — it needs immediate attention. A blocked user might have a workaround you can hand them in two minutes (a shared drive path, a temporary permission) that buys hours before the underlying fix needs to happen. Handing out a fast workaround is often higher-leverage than solving the root cause first.</p>
+
+    <h2>Batch the pattern, not the ticket</h2>
+    <p>If the third ticket in an hour references the same printer, the same VPN error, or the same SSO prompt, stop treating them as three tickets. That's a pattern, and patterns deserve a single root-cause investigation plus a mass update to every open and future ticket referencing it — not three separate 1:1 resolutions. This is usually where the biggest time savings in a high-volume queue actually come from.</p>
+
+    <h2>Guide junior staff on the framework, not just the fix</h2>
+    <p>Part of being the escalation point is making sure triage judgment doesn't live only in your head. When a junior tech asks whether something should jump the queue, walking them through blast radius and broken-vs-blocked teaches the reasoning, not just the answer — which is what actually reduces how often things get escalated to you in the first place.</p>
+
+    <h2>Automate the repetitive decision, not the judgment call</h2>
+    <p>Ticket routing rules, auto-tagging by keyword, and scripted asset lookups all remove the mechanical parts of triage so the actual decision — which of these five open tickets gets worked next — gets a human's full attention instead of being squeezed in between data entry. The goal of automation here isn't fewer tickets. It's more time spent on the ten seconds of judgment that actually matters per ticket.</p>
+
+    <h2>The practical takeaway</h2>
+    <p>None of this requires new tooling. It requires a consistent framework applied the same way at 9am and at 4:45pm on a Friday, which is usually the harder part. A queue that's triaged consistently, even imperfectly, outperforms one where the best-judgment person happens to be the one reading it that hour.</p>
+  </div>
+
+  <div class="article-cta">
+    <a class="pill-btn primary" href="index.html#contact">Get In Touch</a>
+    <a class="pill-btn ghost" href="blog.html">More Posts</a>
+  </div>
+</article>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <a href="index.html#top" class="brand">
+      <svg class="brand-mark" viewBox="0 0 100 100" aria-hidden="true"><path d="M15,20 H85 M50,20 V85" stroke-linecap="round"/></svg>
+      <span>TERRILL HILLIARD</span>
+    </a>
+    <div class="footer-cols">
+      <div>
+        <h4>Contact</h4>
+        <a href="mailto:terrillhilliard96@gmail.com">Email</a>
+        <a href="tel:8189340699">Phone</a>
+        <a href="https://linkedin.com/in/terrillhilliard" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+      <div>
+        <h4>Site</h4>
+        <a href="index.html#about">About</a>
+        <a href="index.html#experience">Experience</a>
+        <a href="index.html#skills">Skills</a>
+        <a href="index.html#projects">Projects</a>
+        <a href="blog.html">Blog</a>
+      </div>
+    </div>
+  </div>
+  <p class="footer-copy">&copy; 2026 Terrill Hilliard. All rights reserved.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
