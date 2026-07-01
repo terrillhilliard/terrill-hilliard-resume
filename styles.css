@@ -1,13 +1,13 @@
 /* ---------- Base ---------- */
 :root{
-  --bg: #f7f6f2;
-  --bg-alt: #efeee8;
-  --ink: #0a0a0a;
-  --ink-dim: #55534c;
-  --ink-faint: #8c897f;
-  --line: rgba(10,10,10,0.14);
-  --accent: #ff4d1c;
-  --accent-ink: #1a0800;
+  --bg: #ffffff;
+  --bg-alt: #f2f4f9;
+  --ink: #0a1f44;
+  --ink-dim: #4a5578;
+  --ink-faint: #8b93b3;
+  --line: rgba(10,31,68,0.16);
+  --accent: #c8102e;
+  --accent-ink: #ffffff;
   --radius-lg: 20px;
   --radius-md: 14px;
   --radius-sm: 999px;
@@ -63,7 +63,7 @@ h1,h2,h3,p{ margin:0; }
   background: #fff;
   border: 1.5px solid var(--ink);
   border-radius: var(--radius-lg);
-  box-shadow: 4px 4px 0 rgba(10,10,10,0.06);
+  box-shadow: 4px 4px 0 rgba(10,31,68,0.08);
 }
 
 /* ---------- Nav ---------- */
@@ -75,7 +75,7 @@ h1,h2,h3,p{ margin:0; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: rgba(247,246,242,0.88);
+  background: rgba(255,255,255,0.88);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-bottom: 1.5px solid var(--ink);
@@ -483,7 +483,7 @@ h1,h2,h3,p{ margin:0; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 6px 6px 0 rgba(10,10,10,0.85) !important;
+  box-shadow: 6px 6px 0 rgba(10,31,68,0.85) !important;
 }
 .contact-panel .section-eyebrow{ color: var(--accent-ink); justify-content: center; }
 .contact-panel .sq{ background: var(--accent-ink); }
@@ -498,9 +498,10 @@ h1,h2,h3,p{ margin:0; }
 }
 .contact-copy{
   margin-top: 16px;
-  color: #1a0800;
+  color: #ffffff;
   font-weight: 600;
   max-width: 480px;
+  opacity: 0.92;
 }
 .contact-links{
   display: flex;
@@ -538,13 +539,13 @@ h1,h2,h3,p{ margin:0; }
   font-size: 11px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #8c897f;
+  color: #8b93c0;
   margin-bottom: 14px;
 }
 .footer-cols a{
   display: block;
   font-size: 13.5px;
-  color: #d8d6cf;
+  color: #d4d8ec;
   margin-bottom: 10px;
   font-weight: 500;
 }
@@ -554,7 +555,7 @@ h1,h2,h3,p{ margin:0; }
   margin: 0 auto;
   padding: 0 3vw 32px;
   font-size: 12px;
-  color: #6b6960;
+  color: #5c6690;
 }
 
 /* ---------- Reveal animation ---------- */
