@@ -354,6 +354,13 @@ h1,h2,h3,p{ margin:0; }
 }
 .cert-chip.muted{ color: var(--ink-faint); border-style: dashed; }
 .cert-chip.muted .dot{ background: var(--ink-faint); }
+a.cert-chip{ transition: transform 0.2s ease, background 0.2s ease; }
+a.cert-chip:hover{ transform: translateY(-2px); background: var(--ink); color: #fff; }
+a.cert-chip:hover .ext{ opacity: 1; }
+.cert-chip .ext{
+  font-size: 11px;
+  opacity: 0.45;
+}
 
 /* Timeline */
 .timeline{
