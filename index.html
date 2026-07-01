@@ -272,45 +272,80 @@
   <h2 class="section-title reveal">What I build when off the clock.</h2>
 
   <div class="project-grid">
-    <a class="glass project-card wide featured reveal" href="https://afterhours-ai-gray.vercel.app/" target="_blank" rel="noopener">
-      <div class="featured-top">
-        <span class="project-tag">Live Product &middot; Side Project &middot; Agentic AI</span>
+
+    <a class="glass project-card reveal" href="https://afterhours-ai-gray.vercel.app/" target="_blank" rel="noopener">
+      <div class="project-card-head">
+        <span class="project-tag">Live Product &middot; Agentic AI</span>
+        <h3>JURIS AI</h3>
         <span class="project-live-link">View Live Site &#8599;</span>
+        <span class="project-card-meta">(877) 931-0013</span>
       </div>
-      <h3>JURIS AI</h3>
-      <p>Full-stack agentic AI intake platform for service businesses. AI voice and SMS agents answer every
-        call and text in under a second, qualify leads against custom business criteria, book appointments
-        directly into the calendar, and hand off qualified leads via SMS/email &mdash; built end-to-end
-        (voice agent, SMS agent, web intake, scheduling, and billing) to stop the 35% of business calls
-        that go unanswered from turning into lost revenue.</p>
-      <div class="tags">
-        <span>AI Voice Agent</span><span>AI SMS Agent</span><span>Lead Qualification</span>
-        <span>Calendar Booking</span><span>Multi-Tenant SaaS</span>
+      <div class="project-card-body">
+        <p>Full-stack agentic AI intake platform built to fix a specific, measurable problem: 35% of business
+          calls go unanswered even during business hours, and 78% of customers choose whichever business
+          responds first. JURIS AI answers every call and text in under one second, 24/7/365 &mdash; an
+          ElevenLabs-powered AI voice agent and AI SMS agent qualify each lead against the business&rsquo;s
+          own criteria, book appointments directly into Google Calendar / Outlook / Calendly, and hand off
+          qualified leads to the team via SMS or email. Built end-to-end as a multi-tenant SaaS: custom
+          conversion-optimized website generation, a smart web intake form, live human call transfer/screening,
+          and a tiered subscription model ($50&ndash;$150/mo) with 48-hour setup from signup to live.</p>
+        <div class="tags">
+          <span>AI Voice Agent (ElevenLabs)</span><span>AI SMS Agent</span><span>Lead Qualification</span>
+          <span>Calendar Booking</span><span>Multi-Tenant SaaS</span><span>Stripe Billing</span>
+        </div>
       </div>
-      <p class="featured-phone">(877) 931-0013</p>
     </a>
+
     <a class="glass project-card reveal" href="https://www.youtube.com/watch?v=rb_vCKjSVFU" target="_blank" rel="noopener">
-      <span class="project-tag">Home Lab</span>
-      <h3>Home SOC Lab</h3>
-      <p>Built a cloud-hosted Elastic SIEM integrated with a Kali Linux VM via Elastic Agent, then used KQL
-        in Discover to analyze host logs and built a custom dashboard tracking log flow over time. Authored
-        a custom &ldquo;Port Scanning Detection&rdquo; rule with severity/risk scoring and enabled MITRE
-        ATT&amp;CK&ndash;mapped rules for SSH brute-force detection &mdash; then validated both end-to-end
-        with live Nmap scans and Hydra brute-force attacks against the lab.</p>
-      <span class="edu-link">Watch Demo &#8599;</span>
+      <div class="project-card-head">
+        <span class="project-tag">Home Lab</span>
+        <h3>Home SOC Lab</h3>
+        <span class="project-live-link">Watch Demo &#8599;</span>
+      </div>
+      <div class="project-card-body">
+        <p>Built a cloud-hosted Elastic SIEM and enrolled a Kali Linux VM via Elastic Agent (Elastic Defend)
+          to forward host telemetry, then verified ingestion in Discover/Metrics and used KQL to search
+          process, command, and network data. Built a custom &ldquo;Logs in Flow&rdquo; dashboard (metrics
+          histogram, 30-minute buckets, empty-bucket tracking) to monitor ingestion health and spot gaps.
+          Authored a custom &ldquo;Port Scanning Detection&rdquo; rule &mdash; High severity, 5-minute
+          evaluation schedule &mdash; and separately enabled prebuilt, MITRE ATT&amp;CK&ndash;mapped rules
+          for Linux SSH brute-force and authentication activity, reviewing their built-in investigation
+          guides. Validated both end-to-end with live Nmap port scans and Hydra-driven SSH brute-force
+          attempts against the lab, confirming alerts fired correctly in the Elastic Security Alerts queue,
+          and explored downstream alert routing via email, webhook, Slack, and ServiceNow.</p>
+        <div class="tags">
+          <span>Elastic SIEM</span><span>Kali Linux</span><span>KQL</span><span>Detection Engineering</span>
+          <span>MITRE ATT&amp;CK</span><span>Nmap / Hydra</span>
+        </div>
+      </div>
     </a>
+
     <div class="glass project-card reveal">
-      <span class="project-tag">WGU Capstone</span>
-      <h3>Vulnerability Assessment Capstone</h3>
-      <p>Ran a full-scope assessment with Nessus and OpenVAS, producing an executive risk report mapped
-        to NIST 800-53 controls.</p>
+      <div class="project-card-head">
+        <span class="project-tag">WGU Graduate Capstone</span>
+        <h3>Splunk SIEM Implementation for Cyber Threat Detection</h3>
+        <span class="project-card-meta">Riverside Community Hospital (fictional org)</span>
+      </div>
+      <div class="project-card-body">
+        <p>Designed and implemented a Splunk Enterprise Security (ES) SIEM for a fictional 200-bed hospital
+          with no prior centralized monitoring, onboarding 47 log sources &mdash; 312 endpoints, 28 servers,
+          6 firewalls, Active Directory, and the EHR system &mdash; ingesting roughly 80&ndash;100 GB/day.
+          Built and tuned detection rules mapped to MITRE ATT&amp;CK, raising technique coverage from an
+          effective 0% baseline to 83% of the priority techniques identified in CISA healthcare advisories.
+          Validated the deployment with Atomic Red Team across five attack scenarios &mdash; phishing
+          credential theft, ransomware lateral movement, insider PHI access, brute-force auth, and C2
+          beaconing &mdash; all detected within the required 5-minute window, then tuned the false-positive
+          rate down to 7.2% and cut average investigation time from 4&ndash;6 hours to 30&ndash;45 minutes.
+          Authored three governance policies (SIEM Acceptable Use, Incident Response, Audit Log Retention)
+          aligned to the HIPAA Security Rule and NIST SP 800-61, moving the org&rsquo;s NIST CSF Detect
+          maturity from Partial to Risk Informed.</p>
+        <div class="tags">
+          <span>Splunk Enterprise Security</span><span>MITRE ATT&amp;CK</span><span>NIST CSF / 800-61</span>
+          <span>HIPAA Security Rule</span><span>Atomic Red Team</span><span>Waterfall PM</span>
+        </div>
+      </div>
     </div>
-    <div class="glass project-card reveal">
-      <span class="project-tag">CTF</span>
-      <h3>TryHackMe / HackTheBox</h3>
-      <p>Active in CTF-style offensive/defensive challenges reinforcing privilege escalation, lateral
-        movement, and SIEM detection aligned to MITRE ATT&amp;CK.</p>
-    </div>
+
   </div>
 
   <p class="section-eyebrow reveal edu-eyebrow"><span class="sq"></span>Education</p>
