@@ -461,6 +461,39 @@ a.cert-chip:hover .ext{ opacity: 1; }
 }
 .project-card h3{ font-size: 18px; font-weight: 800; margin-bottom: 12px; }
 .project-card p{ font-size: 14px; color: var(--ink-dim); }
+.project-card.wide{ grid-column: span 3; }
+.project-card.featured{
+  display: block;
+  transition: transform 0.2s ease;
+}
+.project-card.featured:hover{ transform: translateY(-3px); }
+.featured-top{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.featured-top .project-tag{ margin-bottom: 0; }
+.project-live-link{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ink);
+  border-bottom: 1.5px solid var(--ink);
+  padding-bottom: 2px;
+}
+.project-card.featured:hover .project-live-link{ color: var(--accent); border-color: var(--accent); }
+.project-card.featured .tags{ margin-top: 20px; }
+.featured-phone{
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-faint);
+  margin-top: 18px;
+}
 
 .edu-eyebrow{ margin-top: 88px; }
 .edu-grid{
