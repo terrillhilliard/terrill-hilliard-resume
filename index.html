@@ -8,7 +8,7 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="apple-touch-icon" href="favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20260704a">
+<link rel="stylesheet" href="styles.css?v=20260704c">
 </head>
 <body>
 
@@ -87,40 +87,72 @@
 
         <div class="hud-rotator" id="hudRotator">
           <div class="hud-slide is-active">
-            <svg class="hud-ico" viewBox="0 0 64 64" aria-hidden="true">
-              <circle cx="32" cy="32" r="7" fill="none" stroke="#fff" stroke-width="2.5"/>
-              <circle cx="14" cy="16" r="4" fill="none" stroke="#fff" stroke-width="2"/>
-              <circle cx="50" cy="16" r="4" fill="none" stroke="#fff" stroke-width="2"/>
-              <circle cx="14" cy="48" r="4" fill="none" stroke="#fff" stroke-width="2"/>
-              <circle cx="50" cy="48" r="4" fill="none" stroke="#fff" stroke-width="2"/>
-              <path d="M18 18 L27 28 M46 18 L37 28 M18 46 L27 36 M46 46 L37 36" stroke="#fff" stroke-width="1.6" opacity="0.7"/>
-            </svg>
-            <span class="hud-name">AI &amp; Automation</span>
-            <span class="hud-sub">GenAI &middot; Agentic AI &middot; SOC automation</span>
+            <div class="hud-slide-head">
+              <svg class="hud-ico" viewBox="0 0 64 64" aria-hidden="true">
+                <circle cx="32" cy="32" r="7" fill="none" stroke="#fff" stroke-width="3"/>
+                <circle cx="14" cy="16" r="4" fill="none" stroke="#fff" stroke-width="2.5"/>
+                <circle cx="50" cy="16" r="4" fill="none" stroke="#fff" stroke-width="2.5"/>
+                <circle cx="14" cy="48" r="4" fill="none" stroke="#fff" stroke-width="2.5"/>
+                <circle cx="50" cy="48" r="4" fill="none" stroke="#fff" stroke-width="2.5"/>
+                <path d="M18 18 L27 28 M46 18 L37 28 M18 46 L27 36 M46 46 L37 36" stroke="#fff" stroke-width="2" opacity="0.7"/>
+              </svg>
+              <span class="hud-name">AI &amp; Automation</span>
+            </div>
+            <ul class="hud-list">
+              <li>Built &amp; shipped JURIS AI &mdash; agentic voice/SMS intake SaaS</li>
+              <li>LLM / GenAI tooling &amp; API integration</li>
+              <li>Prompt engineering for production workflows</li>
+              <li>AI-assisted SOC alert triage &amp; summarization</li>
+              <li>Python &amp; PowerShell automation of ops tasks</li>
+            </ul>
           </div>
           <div class="hud-slide">
-            <svg class="hud-ico" viewBox="0 0 64 64" aria-hidden="true">
-              <circle cx="32" cy="32" r="20" fill="none" stroke="#fff" stroke-width="2.5"/>
-              <circle cx="32" cy="32" r="6" fill="none" stroke="#ff4d5e" stroke-width="2.5"/>
-              <path d="M32 4 V16 M32 48 V60 M4 32 H16 M48 32 H60" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/>
-            </svg>
-            <span class="hud-name">Red Team &mdash; Offensive</span>
-            <span class="hud-sub">Pen testing &middot; Exploitation &middot; Recon</span>
+            <div class="hud-slide-head">
+              <svg class="hud-ico" viewBox="0 0 64 64" aria-hidden="true">
+                <circle cx="32" cy="32" r="20" fill="none" stroke="#fff" stroke-width="3"/>
+                <circle cx="32" cy="32" r="6" fill="none" stroke="#ff4d5e" stroke-width="3"/>
+                <path d="M32 4 V16 M32 48 V60 M4 32 H16 M48 32 H60" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+              </svg>
+              <span class="hud-name">Red Team &mdash; Offensive</span>
+            </div>
+            <ul class="hud-list">
+              <li>Vulnerability assessment &mdash; Nessus &amp; OpenVAS</li>
+              <li>Exploitation with Metasploit &amp; Burp Suite</li>
+              <li>Network recon &mdash; Nmap &amp; Nikto</li>
+              <li>SQL injection testing with SQLMap</li>
+              <li>Password / SSH brute-force attacks (Hydra)</li>
+            </ul>
           </div>
           <div class="hud-slide">
-            <svg class="hud-ico" viewBox="0 0 64 64" aria-hidden="true">
-              <path d="M32 5 L54 14 V32 C54 46 44 55 32 59 C20 55 10 46 10 32 V14 Z" fill="none" stroke="#fff" stroke-width="2.5"/>
-              <path d="M23 32 L30 39 L43 24" fill="none" stroke="#7fb0ff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <span class="hud-name">Blue Team &mdash; Defensive</span>
-            <span class="hud-sub">SIEM &middot; Detection eng &middot; Threat hunting</span>
+            <div class="hud-slide-head">
+              <svg class="hud-ico" viewBox="0 0 64 64" aria-hidden="true">
+                <path d="M32 5 L54 14 V32 C54 46 44 55 32 59 C20 55 10 46 10 32 V14 Z" fill="none" stroke="#fff" stroke-width="3"/>
+                <path d="M23 32 L30 39 L43 24" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span class="hud-name">Blue Team &mdash; Defensive</span>
+            </div>
+            <ul class="hud-list">
+              <li>SIEM detection engineering &mdash; Splunk &amp; Elastic</li>
+              <li>Threat hunting &amp; log correlation</li>
+              <li>Custom rules mapped to MITRE ATT&amp;CK</li>
+              <li>Incident response aligned to NIST 800-61</li>
+              <li>Alert tuning to cut false positives</li>
+            </ul>
           </div>
           <div class="hud-slide">
-            <svg class="hud-ico" viewBox="0 0 64 64" aria-hidden="true">
-              <path d="M22 20 L10 32 L22 44 M42 20 L54 32 L42 44 M36 16 L28 48" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <span class="hud-name">Programming</span>
-            <span class="hud-sub">SQL &middot; Python &middot; PowerShell &middot; Bash</span>
+            <div class="hud-slide-head">
+              <svg class="hud-ico" viewBox="0 0 64 64" aria-hidden="true">
+                <path d="M22 20 L10 32 L22 44 M42 20 L54 32 L42 44 M36 16 L28 48" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span class="hud-name">Programming</span>
+            </div>
+            <ul class="hud-list">
+              <li>SQL &mdash; advanced (10M+ record analysis, ETL)</li>
+              <li>Python &mdash; intermediate (automation, scripting)</li>
+              <li>PowerShell &mdash; intermediate (ticket/asset automation)</li>
+              <li>Bash &mdash; working (Linux &amp; SOC-lab tooling)</li>
+              <li>Dashboarding &amp; reporting (KPIs, SIEM)</li>
+            </ul>
           </div>
         </div>
 
@@ -483,7 +515,7 @@
   <p class="footer-copy">&copy; 2026 Terrill Hilliard. All rights reserved.</p>
 </footer>
 
-<script src="fx.js?v=20260704a"></script>
-<script src="script.js?v=20260704a"></script>
+<script src="fx.js?v=20260704c"></script>
+<script src="script.js?v=20260704c"></script>
 </body>
 </html>
