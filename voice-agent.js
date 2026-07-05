@@ -29,6 +29,17 @@
   if (AGENT_ID) {
     var widget = document.createElement('elevenlabs-convai');
     widget.setAttribute('agent-id', AGENT_ID);
+    // Customize appearance: remove the default "Need help?" text, brand the
+    // launcher orb navy/red, and lead with a clear speaker icon + voice CTA.
+    widget.setAttribute('action-text', '🔊 Talk to my AI twin');
+    widget.setAttribute('start-call-text', 'Start voice chat');
+    widget.setAttribute('end-call-text', 'End chat');
+    widget.setAttribute('expand-text', 'Chat by text');
+    widget.setAttribute('listening-text', 'Listening…');
+    widget.setAttribute('speaking-text', 'Speaking…');
+    widget.setAttribute('variant', 'expandable');
+    widget.setAttribute('avatar-orb-color-1', '#0a1f44');
+    widget.setAttribute('avatar-orb-color-2', '#c8102e');
     document.body.appendChild(widget);
 
     var s = document.createElement('script');
@@ -46,8 +57,8 @@
   callout.setAttribute('aria-label', 'AI assistant');
   callout.innerHTML =
     '<button class="ai-callout-x" aria-label="Dismiss">×</button>' +
-    '<p class="ai-callout-title"><span class="ai-callout-wave">🎙️</span> Talk to my AI twin</p>' +
-    '<p class="ai-callout-body">Ask it anything about my experience, projects, or availability &mdash; by voice or text.</p>' +
+    '<p class="ai-callout-title"><span class="ai-callout-wave">🔊</span> Talk to my AI twin</p>' +
+    '<p class="ai-callout-body">Tap the speaker below to <strong>talk by voice</strong> — or type. Ask it anything about my experience, projects, or availability.</p>' +
     '<p class="ai-callout-credit">Built on the same ElevenLabs stack I used to ship <strong>JURIS AI</strong>.</p>';
   document.body.appendChild(callout);
 
