@@ -506,26 +506,42 @@ h1,h2,h3,p{ margin:0; }
   color: #fff;
   letter-spacing: -0.01em;
 }
-.hud-list{
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+/* ---- Live terminal inside each capability slide ---- */
+.hud-term{
+  font-family: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 12px;
+  line-height: 1.55;
+  color: rgba(255,255,255,0.8);
+  min-height: 132px;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
-.hud-list li{
-  position: relative;
-  padding-left: 18px;
-  font-size: 12.5px;
-  line-height: 1.35;
-  color: rgba(255,255,255,0.78);
-  font-weight: 500;
+.hud-term .tl{ display: block; }
+.hud-term .prompt{ color: #4ade80; font-weight: 600; }   /* terminal green */
+.hud-term .cmd{ color: #eaf2ff; }
+.hud-term .out{ color: rgba(255,255,255,0.62); }
+.hud-term .ok{ color: #4ade80; }
+.hud-term .warn{ color: #f5b301; }                        /* amber */
+.hud-term .alert{ color: #ff6b7d; }                       /* on-brand red */
+.hud-term .cursor{
+  display: inline-block;
+  width: 7px; height: 14px;
+  margin-left: 2px;
+  background: #4ade80;
+  vertical-align: -2px;
+  animation: hudCaret 1s steps(1) infinite;
 }
-.hud-list li::before{
-  content: "";
-  position: absolute;
-  left: 0; top: 6px;
-  width: 6px; height: 6px;
-  background: var(--accent);
-  border-radius: 1px;
+@keyframes hudCaret{ 0%,50%{ opacity: 1; } 50.01%,100%{ opacity: 0; } }
+
+/* Hover: green terminal-style glow + border pulse (no transform — the tile
+   already carries a parallax transform from fx.js, so we glow via shadow). */
+.hud-tile{ transition: box-shadow 0.3s ease, border-color 0.3s ease; }
+.hero-visual:hover .hud-tile,
+.hud-tile:hover{
+  border-color: rgba(74,222,128,0.55);
+  box-shadow: 0 0 0 1px rgba(74,222,128,0.35),
+              0 18px 46px -20px rgba(74,222,128,0.45),
+              inset 0 0 26px rgba(74,222,128,0.06);
 }
 .hud-ticks{
   display: flex;
@@ -536,15 +552,20 @@ h1,h2,h3,p{ margin:0; }
   z-index: 1;
 }
 .hud-tick{
-  width: 22px; height: 3px;
+  width: 22px; height: 4px;
+  padding: 0;
+  border: none;
   border-radius: 2px;
   background: rgba(255,255,255,0.22);
+  cursor: pointer;
   transition: background 0.4s ease, width 0.4s ease;
 }
+.hud-tick:hover{ background: rgba(255,255,255,0.45); }
 .hud-tick.is-active{
   background: var(--accent);
   width: 30px;
 }
+.hud-tick:focus-visible{ outline: 2px solid #4ade80; outline-offset: 3px; }
 
 /* ---------- Skill card icons + proficiency bars ---------- */
 .skill-icon{
