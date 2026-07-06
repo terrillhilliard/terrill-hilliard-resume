@@ -56,11 +56,26 @@
     var DPR = Math.min(window.devicePixelRatio || 1, 1.5);
     var FOV = 900;
     var w = 0, h = 0, cube = 0;
-    var pts = [];       // {x,y,z,r,accent}
-    var pairs = [];     // static link pairs [i,j]
+    var pts = [];       // {x,y,z,r,col}
+    var pairs = [];     // static link pairs [i,j,blendedColor]
     var ico = buildIcosahedron();
     var oct = buildOctahedron();
     var t = 0;
+
+    // Weighted palette: navy base (5/10) + cool variety (steel, azure) +
+    // ~30% warm reds (brand crimson, deep red, red-orange). Nodes and their
+    // connecting lines draw from this so the field reads colorful, not monotone.
+    var PALETTE = [
+      [10,31,68], [10,31,68], [10,31,68], [10,31,68], [10,31,68], // navy base
+      [47,111,176],   // steel blue
+      [63,184,224],   // azure pop
+      [200,16,46],    // brand crimson
+      [139,13,32],    // deep red
+      [255,90,31]     // red-orange
+    ];
+    function pickCol() { return PALETTE[(Math.random() * PALETTE.length) | 0]; }
+    function blendCol(a, b) { return [(a[0]+b[0])>>1, (a[1]+b[1])>>1, (a[2]+b[2])>>1]; }
+    function rgba(c, al) { return 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + al.toFixed(3) + ')'; }
 
     function resize() {
       w = window.innerWidth;
@@ -83,10 +98,11 @@
           y: (Math.random() - 0.5) * cube * 1.2,
           z: (Math.random() - 0.5) * cube,
           r: 1 + Math.random() * 1.6,
-          accent: Math.random() < 0.08
+          col: pickCol()
         });
       }
       // Static neighbor pairs by true 3D distance (rotation preserves them).
+      // Each pair caches a blended color from its two endpoints.
       pairs = [];
       var maxD = cube * 0.22, maxD2 = maxD * maxD;
       var perPoint = new Array(count).fill(0);
@@ -95,7 +111,7 @@
           if (perPoint[i] > 2 || perPoint[j] > 2) continue;
           var dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y, dz = pts[i].z - pts[j].z;
           if (dx * dx + dy * dy + dz * dz < maxD2) {
-            pairs.push([i, j]);
+            pairs.push([i, j, blendCol(pts[i].col, pts[j].col)]);
             perPoint[i]++; perPoint[j]++;
           }
         }
@@ -166,9 +182,9 @@
         var wy1 = ((sy[a] % (h + 300)) + h + 300) % (h + 300) - 150;
         var wy2 = ((sy[b] % (h + 300)) + h + 300) % (h + 300) - 150;
         if (Math.abs(wy1 - wy2) > 400) continue; // skip wrapped seams
-        var alpha = 0.05 + 0.08 * (sd[a] + sd[b] - 1);
+        var alpha = 0.055 + 0.09 * (sd[a] + sd[b] - 1);
         if (alpha <= 0.01) continue;
-        ctx.strokeStyle = 'rgba(10,31,68,' + alpha.toFixed(3) + ')';
+        ctx.strokeStyle = rgba(pairs[i][2], alpha);
         ctx.beginPath();
         ctx.moveTo(sx[a], wy1);
         ctx.lineTo(sx[b], wy2);
@@ -179,12 +195,12 @@
         var q = pts[i];
         var wy = ((sy[i] % (h + 300)) + h + 300) % (h + 300) - 150;
         var rad = q.r * sd[i];
-        var al = 0.05 + 0.26 * sd[i]; // depth fog
+        // warmer/redder nodes carry a touch more alpha so the reds read
+        var warm = q.col[0] > q.col[2];
+        var al = (warm ? 0.09 : 0.06) + 0.3 * sd[i]; // depth fog + vibrancy
         ctx.beginPath();
         ctx.arc(sx[i], wy, rad, 0, 6.2832);
-        ctx.fillStyle = q.accent
-          ? 'rgba(200,16,46,' + Math.min(0.6, al + 0.12).toFixed(3) + ')'
-          : 'rgba(10,31,68,' + Math.min(0.42, al).toFixed(3) + ')';
+        ctx.fillStyle = rgba(q.col, Math.min(warm ? 0.6 : 0.5, al));
         ctx.fill();
       }
 
@@ -195,15 +211,15 @@
         var icx = isNarrow ? w * 0.5 : w * 0.72;
         var icy = (isNarrow ? h * 0.3 : h * 0.44) - scroll * 0.35;
         drawWireframe(ico, icx, icy, R,
-          0.45 + t * 1.1 + mouseY * 0.4, t * 3.2 + mouseX * 0.8, heroFade, [1, 9, 4]);
+          0.45 + t * 1.1 + mouseY * 0.4, t * 3.2 + mouseX * 0.8, heroFade, [1, 9, 4], [37, 78, 140]);
 
         if (!isNarrow) {
-          // smaller octahedron drifting over the grid, gently bobbing
+          // smaller octahedron drifting over the grid — warm red-orange wireframe
           var R2 = Math.min(w, h) * 0.11;
           var ox = w * 0.17 + Math.sin(t * 1.3) * 22;
           var oy = h * 0.62 + Math.cos(t * 1.05) * 18 - scroll * 0.22;
           drawWireframe(oct, ox, oy, R2,
-            t * 1.6 + mouseY * 0.3, t * 2.2 + mouseX * 0.4, heroFade * 0.85, [0, 1]);
+            t * 1.6 + mouseY * 0.3, t * 2.2 + mouseX * 0.4, heroFade * 0.85, [0, 1], [200, 40, 40]);
         }
       }
     }
@@ -227,7 +243,12 @@
         var yy = horizonY + span * ease;
         var a = 0.07 * ease;
         if (a <= 0.004) continue;
-        ctx.strokeStyle = 'rgba(10,31,68,' + a.toFixed(3) + ')';
+        // rows warm from navy (far) toward red-orange (near the viewer)
+        var mix = ease * 0.7;
+        var gr = (10 + (255 - 10) * mix) | 0;
+        var gg = (31 + (90 - 31) * mix) | 0;
+        var gb = (68 + (31 - 68) * mix) | 0;
+        ctx.strokeStyle = 'rgba(' + gr + ',' + gg + ',' + gb + ',' + a.toFixed(3) + ')';
         ctx.beginPath();
         ctx.moveTo(0, yy);
         ctx.lineTo(w, yy);
@@ -238,10 +259,12 @@
       for (var cI = -cols; cI <= cols; cI++) {
         var frac = cI / cols;
         var xNear = vanishX + frac * w * 1.5;
-        var a2 = 0.045 * (1 - Math.abs(frac) * 0.45);
+        var a2 = 0.05 * (1 - Math.abs(frac) * 0.45);
         if (a2 <= 0.004) continue;
-        ctx.strokeStyle = (cI === 0)
-          ? 'rgba(200,16,46,0.05)'
+        var am = Math.abs(cI);
+        // every 4th line (and the center) warms to crimson/red for color pops
+        ctx.strokeStyle = (am % 4 === 0)
+          ? 'rgba(200,16,46,' + (a2 + 0.015).toFixed(3) + ')'
           : 'rgba(10,31,68,' + a2.toFixed(3) + ')';
         ctx.beginPath();
         ctx.moveTo(vanishX, horizonY);
@@ -251,8 +274,10 @@
     }
 
     // Generic rotating wireframe polyhedron with depth-shaded edges/vertices.
-    function drawWireframe(shape, cxp, cyp, R, ax, ay, fade, accents) {
+    // edgeCol tints the wireframe; accents mark red vertices.
+    function drawWireframe(shape, cxp, cyp, R, ax, ay, fade, accents, edgeCol) {
       if (fade <= 0.02) return;
+      edgeCol = edgeCol || [10, 31, 68];
       var pv = [];
       for (var i = 0; i < shape.v.length; i++) {
         var rv = rot(shape.v[i][0] * R, shape.v[i][1] * R, shape.v[i][2] * R, ax, ay);
@@ -263,9 +288,9 @@
       for (i = 0; i < shape.e.length; i++) {
         var va = pv[shape.e[i][0]], vb = pv[shape.e[i][1]];
         var depth = (va[2] + vb[2]) / 2 - 0.8;
-        var ea = Math.max(0, 0.06 + depth * 0.28) * fade;
+        var ea = Math.max(0, 0.07 + depth * 0.3) * fade;
         if (ea <= 0.005) continue;
-        ctx.strokeStyle = 'rgba(10,31,68,' + ea.toFixed(3) + ')';
+        ctx.strokeStyle = rgba(edgeCol, ea);
         ctx.beginPath();
         ctx.moveTo(va[0], va[1]);
         ctx.lineTo(vb[0], vb[1]);
@@ -278,8 +303,8 @@
         ctx.beginPath();
         ctx.arc(pv[i][0], pv[i][1], 2 + pv[i][2] * 1.6, 0, 6.2832);
         ctx.fillStyle = (accents && accents.indexOf(i) !== -1)
-          ? 'rgba(200,16,46,' + Math.min(0.7, vAlpha + 0.15).toFixed(3) + ')'
-          : 'rgba(10,31,68,' + Math.min(0.5, vAlpha).toFixed(3) + ')';
+          ? 'rgba(200,16,46,' + Math.min(0.75, vAlpha + 0.18).toFixed(3) + ')'
+          : rgba(edgeCol, Math.min(0.5, vAlpha));
         ctx.fill();
       }
     }
@@ -412,10 +437,12 @@
       ctx.beginPath(); ctx.moveTo(vanishX, horizonY); ctx.lineTo(vanishX + (gc / 12) * w * 1.5, bottom); ctx.stroke();
     }
 
+    var pal = [[10,31,68],[10,31,68],[10,31,68],[47,111,176],[200,16,46],[139,13,32],[255,90,31]];
     var count = Math.floor((w * h) / 26000);
     var pts = [];
     for (var i = 0; i < count; i++) {
-      pts.push({ x: Math.random() * w, y: Math.random() * h, r: 1 + Math.random() * 1.6 });
+      pts.push({ x: Math.random() * w, y: Math.random() * h, r: 1 + Math.random() * 1.6,
+                 col: pal[(Math.random() * pal.length) | 0] });
     }
     for (i = 0; i < count; i++) {
       for (var j = i + 1; j < count; j++) {
@@ -431,9 +458,10 @@
       }
     }
     for (i = 0; i < count; i++) {
+      var c = pts[i].col;
       ctx.beginPath();
       ctx.arc(pts[i].x, pts[i].y, pts[i].r, 0, 6.2832);
-      ctx.fillStyle = 'rgba(10,31,68,0.22)';
+      ctx.fillStyle = 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',0.26)';
       ctx.fill();
     }
   }
