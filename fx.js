@@ -59,6 +59,7 @@
     var pts = [];       // {x,y,z,r,accent}
     var pairs = [];     // static link pairs [i,j]
     var ico = buildIcosahedron();
+    var oct = buildOctahedron();
     var t = 0;
 
     function resize() {
@@ -118,6 +119,12 @@
       return { v: v, e: e };
     }
 
+    function buildOctahedron() {
+      var v = [[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]];
+      var e = [[0,2],[0,3],[0,4],[0,5],[1,2],[1,3],[1,4],[1,5],[2,4],[2,5],[3,4],[3,5]];
+      return { v: v, e: e };
+    }
+
     function rot(x, y, z, ax, ay) {
       var cy = Math.cos(ay), sy = Math.sin(ay);
       var cx = Math.cos(ax), sx = Math.sin(ax);
@@ -139,7 +146,10 @@
 
       ctx.clearRect(0, 0, w, h);
 
-      // ----- particle field -----
+      // ----- perspective grid floor (sci-fi horizon) -----
+      drawGrid(scroll);
+
+      // ----- particle field (depth-fogged constellation) -----
       var n = pts.length;
       for (var i = 0; i < n; i++) {
         var p = pts[i];
@@ -156,7 +166,7 @@
         var wy1 = ((sy[a] % (h + 300)) + h + 300) % (h + 300) - 150;
         var wy2 = ((sy[b] % (h + 300)) + h + 300) % (h + 300) - 150;
         if (Math.abs(wy1 - wy2) > 400) continue; // skip wrapped seams
-        var alpha = 0.05 + 0.075 * (sd[a] + sd[b] - 1);
+        var alpha = 0.05 + 0.08 * (sd[a] + sd[b] - 1);
         if (alpha <= 0.01) continue;
         ctx.strokeStyle = 'rgba(10,31,68,' + alpha.toFixed(3) + ')';
         ctx.beginPath();
@@ -169,52 +179,108 @@
         var q = pts[i];
         var wy = ((sy[i] % (h + 300)) + h + 300) % (h + 300) - 150;
         var rad = q.r * sd[i];
-        var al = 0.08 + 0.2 * sd[i];
+        var al = 0.05 + 0.26 * sd[i]; // depth fog
         ctx.beginPath();
         ctx.arc(sx[i], wy, rad, 0, 6.2832);
         ctx.fillStyle = q.accent
-          ? 'rgba(200,16,46,' + Math.min(0.55, al + 0.1).toFixed(3) + ')'
-          : 'rgba(10,31,68,' + Math.min(0.4, al).toFixed(3) + ')';
+          ? 'rgba(200,16,46,' + Math.min(0.6, al + 0.12).toFixed(3) + ')'
+          : 'rgba(10,31,68,' + Math.min(0.42, al).toFixed(3) + ')';
         ctx.fill();
       }
 
-      // ----- wireframe icosahedron (hero only, fades on scroll) -----
-      var icoFade = 1 - scroll / (h * 0.9);
-      if (icoFade > 0.02) {
+      // ----- floating wireframe geometry (hero, fades on scroll) -----
+      var heroFade = 1 - scroll / (h * 0.9);
+      if (heroFade > 0.02) {
         var R = isNarrow ? Math.min(w, h) * 0.3 : Math.min(w, h) * 0.34;
         var icx = isNarrow ? w * 0.5 : w * 0.72;
-        var icy = isNarrow ? h * 0.3 : h * 0.44 - scroll * 0.35;
-        var iay = t * 3.2 + mouseX * 0.8;
-        var iax = 0.45 + t * 1.1 + mouseY * 0.4;
-        var pv = [];
-        for (i = 0; i < ico.v.length; i++) {
-          var rv = rot(ico.v[i][0] * R, ico.v[i][1] * R, ico.v[i][2] * R, iax, iay);
-          var pp = FOV / (FOV + rv[2]);
-          pv.push([icx + rv[0] * pp, icy + rv[1] * pp, pp]);
+        var icy = (isNarrow ? h * 0.3 : h * 0.44) - scroll * 0.35;
+        drawWireframe(ico, icx, icy, R,
+          0.45 + t * 1.1 + mouseY * 0.4, t * 3.2 + mouseX * 0.8, heroFade, [1, 9, 4]);
+
+        if (!isNarrow) {
+          // smaller octahedron drifting over the grid, gently bobbing
+          var R2 = Math.min(w, h) * 0.11;
+          var ox = w * 0.17 + Math.sin(t * 1.3) * 22;
+          var oy = h * 0.62 + Math.cos(t * 1.05) * 18 - scroll * 0.22;
+          drawWireframe(oct, ox, oy, R2,
+            t * 1.6 + mouseY * 0.3, t * 2.2 + mouseX * 0.4, heroFade * 0.85, [0, 1]);
         }
-        ctx.lineWidth = 1.2;
-        for (i = 0; i < ico.e.length; i++) {
-          var va = pv[ico.e[i][0]], vb = pv[ico.e[i][1]];
-          var depth = (va[2] + vb[2]) / 2 - 0.8; // ~ -0.2 .. 0.4
-          var ea = Math.max(0, (0.06 + depth * 0.28)) * icoFade;
-          if (ea <= 0.005) continue;
-          ctx.strokeStyle = 'rgba(10,31,68,' + ea.toFixed(3) + ')';
-          ctx.beginPath();
-          ctx.moveTo(va[0], va[1]);
-          ctx.lineTo(vb[0], vb[1]);
-          ctx.stroke();
-        }
-        for (i = 0; i < pv.length; i++) {
-          var vd = pv[i][2] - 0.8;
-          var vAlpha = Math.max(0, 0.15 + vd * 0.5) * icoFade;
-          if (vAlpha <= 0.01) continue;
-          ctx.beginPath();
-          ctx.arc(pv[i][0], pv[i][1], 2 + pv[i][2] * 1.6, 0, 6.2832);
-          ctx.fillStyle = (i === 1 || i === 9 || i === 4)
-            ? 'rgba(200,16,46,' + Math.min(0.7, vAlpha + 0.15).toFixed(3) + ')'
-            : 'rgba(10,31,68,' + Math.min(0.5, vAlpha).toFixed(3) + ')';
-          ctx.fill();
-        }
+      }
+    }
+
+    // Perspective floor grid: parallel rows bunched toward a horizon +
+    // verticals converging to a vanishing point, flowing toward the viewer.
+    function drawGrid(scroll) {
+      var horizonY = h * 0.46 - scroll * 0.05;
+      var bottom = h + 60;
+      if (horizonY > bottom - 60) return;
+      var span = bottom - horizonY;
+      var vanishX = w * 0.5 + mouseX * 70;
+      var flow = (t * 0.85) % 1;
+      var rows = 16;
+
+      ctx.lineWidth = 1;
+      for (var r = 1; r <= rows; r++) {
+        var f = (r - flow) / rows;
+        if (f <= 0) continue;
+        var ease = f * f;
+        var yy = horizonY + span * ease;
+        var a = 0.07 * ease;
+        if (a <= 0.004) continue;
+        ctx.strokeStyle = 'rgba(10,31,68,' + a.toFixed(3) + ')';
+        ctx.beginPath();
+        ctx.moveTo(0, yy);
+        ctx.lineTo(w, yy);
+        ctx.stroke();
+      }
+
+      var cols = 16;
+      for (var cI = -cols; cI <= cols; cI++) {
+        var frac = cI / cols;
+        var xNear = vanishX + frac * w * 1.5;
+        var a2 = 0.045 * (1 - Math.abs(frac) * 0.45);
+        if (a2 <= 0.004) continue;
+        ctx.strokeStyle = (cI === 0)
+          ? 'rgba(200,16,46,0.05)'
+          : 'rgba(10,31,68,' + a2.toFixed(3) + ')';
+        ctx.beginPath();
+        ctx.moveTo(vanishX, horizonY);
+        ctx.lineTo(xNear, bottom);
+        ctx.stroke();
+      }
+    }
+
+    // Generic rotating wireframe polyhedron with depth-shaded edges/vertices.
+    function drawWireframe(shape, cxp, cyp, R, ax, ay, fade, accents) {
+      if (fade <= 0.02) return;
+      var pv = [];
+      for (var i = 0; i < shape.v.length; i++) {
+        var rv = rot(shape.v[i][0] * R, shape.v[i][1] * R, shape.v[i][2] * R, ax, ay);
+        var pp = FOV / (FOV + rv[2]);
+        pv.push([cxp + rv[0] * pp, cyp + rv[1] * pp, pp]);
+      }
+      ctx.lineWidth = 1.2;
+      for (i = 0; i < shape.e.length; i++) {
+        var va = pv[shape.e[i][0]], vb = pv[shape.e[i][1]];
+        var depth = (va[2] + vb[2]) / 2 - 0.8;
+        var ea = Math.max(0, 0.06 + depth * 0.28) * fade;
+        if (ea <= 0.005) continue;
+        ctx.strokeStyle = 'rgba(10,31,68,' + ea.toFixed(3) + ')';
+        ctx.beginPath();
+        ctx.moveTo(va[0], va[1]);
+        ctx.lineTo(vb[0], vb[1]);
+        ctx.stroke();
+      }
+      for (i = 0; i < pv.length; i++) {
+        var vd = pv[i][2] - 0.8;
+        var vAlpha = Math.max(0, 0.15 + vd * 0.5) * fade;
+        if (vAlpha <= 0.01) continue;
+        ctx.beginPath();
+        ctx.arc(pv[i][0], pv[i][1], 2 + pv[i][2] * 1.6, 0, 6.2832);
+        ctx.fillStyle = (accents && accents.indexOf(i) !== -1)
+          ? 'rgba(200,16,46,' + Math.min(0.7, vAlpha + 0.15).toFixed(3) + ')'
+          : 'rgba(10,31,68,' + Math.min(0.5, vAlpha).toFixed(3) + ')';
+        ctx.fill();
       }
     }
 
@@ -332,6 +398,20 @@
     var w = window.innerWidth, h = window.innerHeight;
     canvas.width = w;
     canvas.height = h;
+    // faint static perspective grid (matches the animated version)
+    var horizonY = h * 0.5, bottom = h + 40, vanishX = w * 0.5;
+    ctx.lineWidth = 1;
+    for (var g = 1; g <= 12; g++) {
+      var ease = (g / 12) * (g / 12);
+      var yy = horizonY + (bottom - horizonY) * ease;
+      ctx.strokeStyle = 'rgba(10,31,68,' + (0.05 * ease).toFixed(3) + ')';
+      ctx.beginPath(); ctx.moveTo(0, yy); ctx.lineTo(w, yy); ctx.stroke();
+    }
+    for (var gc = -12; gc <= 12; gc++) {
+      ctx.strokeStyle = 'rgba(10,31,68,' + (0.03 * (1 - Math.abs(gc) / 14)).toFixed(3) + ')';
+      ctx.beginPath(); ctx.moveTo(vanishX, horizonY); ctx.lineTo(vanishX + (gc / 12) * w * 1.5, bottom); ctx.stroke();
+    }
+
     var count = Math.floor((w * h) / 26000);
     var pts = [];
     for (var i = 0; i < count; i++) {
