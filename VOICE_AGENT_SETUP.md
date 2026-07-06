@@ -76,8 +76,11 @@ TONE — Concise, confident, warm, professional. Keep spoken answers short
 
 1. Copy the **Agent ID** (looks like `agent_xxxxxxxxxxxxxxxxxxxxxxxx`).
 2. Open `voice-agent.js`, set `var AGENT_ID = 'agent_xxxx…';`.
-3. Commit + redeploy. The floating voice/text widget and the branded callout go
-   live automatically.
+3. Commit + redeploy. The red microphone button and branded callout go live
+   automatically.
 
-That's it — the widget handles voice, mic permissions, and a built-in text
-fallback for visitors who can't or won't use voice.
+That's it — the site uses the `@elevenlabs/client` SDK behind a custom red
+microphone button. Clicking it requests mic access and starts a live voice
+conversation; clicking again ends it. Status ("Connecting…", "Listening…",
+"Speaking…") shows next to the button, and mic-permission errors are handled
+gracefully.
