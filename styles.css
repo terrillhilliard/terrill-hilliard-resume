@@ -104,8 +104,9 @@ h1,h2,h3,p{ margin:0; }
   padding: 18px 20px;
   box-shadow: 0 24px 50px -18px rgba(200,16,46,0.6);
   opacity: 0;
-  transform: translateY(18px) scale(0.96);
-  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22,1,0.36,1);
+  transform: translateY(14px) scale(0.96);
+  transform-origin: bottom right;
+  transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.22,1,0.36,1);
   pointer-events: none;
 }
 .ai-callout.ai-callout-show{
@@ -113,6 +114,28 @@ h1,h2,h3,p{ margin:0; }
   transform: translateY(0) scale(1);
   pointer-events: auto;
 }
+/* chevron toggle — sits to the left of the mic FAB */
+.ai-panel-toggle{
+  position: fixed;
+  right: 94px;
+  bottom: 32px;
+  z-index: 221;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.16);
+  background: var(--ink);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px -8px rgba(10,31,68,0.6);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+.ai-panel-toggle svg{ width: 16px; height: 16px; transition: transform 0.25s ease; }
+.ai-panel-toggle:hover{ transform: translateY(-2px); }
+.ai-panel-toggle.is-open svg{ transform: rotate(180deg); }
+.ai-panel-toggle:focus-visible{ outline: 2px solid var(--accent); outline-offset: 3px; }
 .ai-callout.ai-callout-hide{
   opacity: 0;
   transform: translateY(18px) scale(0.96);
@@ -167,6 +190,7 @@ h1,h2,h3,p{ margin:0; }
 .ai-callout-credit strong{ color: #fff; font-weight: 800; }
 @media (prefers-reduced-motion: reduce){
   .ai-callout{ transition: none; }
+  .ai-panel-toggle svg{ transition: none; }
   .ai-mic-fab.is-active .ai-mic-ring,
   .ai-mic-fab.is-connecting .ai-mic-glyph{ animation: none; }
 }
@@ -174,6 +198,7 @@ h1,h2,h3,p{ margin:0; }
   .ai-mic-fab{ right: 16px; bottom: 16px; }
   .ai-mic-status{ right: 86px; bottom: 32px; }
   .ai-callout{ bottom: 92px; right: 16px; }
+  .ai-panel-toggle{ right: 84px; bottom: 24px; }
 }
 
 /* ---------- 3D background canvas ---------- */
@@ -403,6 +428,18 @@ h1,h2,h3,p{ margin:0; }
   flex-direction: column;
   gap: 18px;
   padding-top: 6px;
+  position: relative;
+}
+/* ambient red glow behind/around the navy HUD panel (base fill untouched) */
+.hero-visual::before{
+  content: "";
+  position: absolute;
+  inset: -10% -8% -14% -8%;
+  z-index: -1;
+  background: radial-gradient(58% 52% at 62% 42%,
+    rgba(200,16,46,0.14), rgba(200,16,46,0.05) 46%, transparent 72%);
+  filter: blur(26px);
+  pointer-events: none;
 }
 .visual-tile{
   background: var(--ink);
@@ -1065,12 +1102,12 @@ a.project-card:hover .project-live-link{ color: var(--accent); border-color: var
 }
 .shape-sq::before{
   width: 52px; height: 52px;
-  border: 2px solid rgba(10,31,68,0.14);
+  border: 2px solid rgba(200,16,46,0.30);
   transform: rotate(12deg);
 }
 .shape-ring::before{
   width: 88px; height: 88px;
-  border: 2px solid rgba(10,31,68,0.10);
+  border: 2px solid rgba(200,16,46,0.30);
   border-radius: 50%;
 }
 .shape-plus::before{

@@ -102,23 +102,49 @@
     if (state === 'active' || state === 'connecting') stop(); else start();
   });
 
-  /* ---------- Intro callout (red, dismissible, once per session) ---------- */
-  if (!sessionStorage.getItem('aiCalloutDismissed')) {
-    var callout = document.createElement('aside');
-    callout.className = 'ai-callout';
-    callout.setAttribute('aria-label', 'AI voice assistant');
-    callout.innerHTML =
-      '<button class="ai-callout-x" aria-label="Dismiss">×</button>' +
-      '<p class="ai-callout-title"><span class="ai-callout-wave">🎙️</span> Talk to my AI twin</p>' +
-      '<p class="ai-callout-body">Tap the red mic to <strong>talk by voice</strong>. Ask it anything ' +
-      'about my experience, projects, or availability.</p>' +
-      '<p class="ai-callout-credit">Built on the same ElevenLabs stack I used to ship <strong>JURIS AI</strong>.</p>';
-    document.body.appendChild(callout);
-    callout.querySelector('.ai-callout-x').addEventListener('click', function () {
-      callout.classList.add('ai-callout-hide');
-      sessionStorage.setItem('aiCalloutDismissed', '1');
-    });
-    if (reduceMotion) callout.classList.add('ai-callout-show');
-    else setTimeout(function () { callout.classList.add('ai-callout-show'); }, 1400);
+  /* ---------- Collapsible intro panel + chevron toggle ----------
+     Collapsed by default: only the mic FAB shows. A small chevron toggle
+     (left of the mic) expands the info panel; the panel's ✕ or the toggle
+     collapses it. Open/closed persists in sessionStorage (survives page
+     navigation, resets next session). */
+  var panel = document.createElement('aside');
+  panel.className = 'ai-callout';
+  panel.setAttribute('aria-label', 'AI voice assistant');
+  panel.setAttribute('role', 'dialog');
+  panel.innerHTML =
+    '<button class="ai-callout-x" aria-label="Collapse">×</button>' +
+    '<p class="ai-callout-title"><span class="ai-callout-wave">🎙️</span> Talk to my AI twin</p>' +
+    '<p class="ai-callout-body">Tap the red mic to talk by voice. Ask it anything about my ' +
+    'experience, projects, or availability.</p>' +
+    '<p class="ai-callout-credit">Built on the same ElevenLabs stack I used to ship <strong>JURIS AI</strong>.</p>';
+  document.body.appendChild(panel);
+
+  var toggle = document.createElement('button');
+  toggle.type = 'button';
+  toggle.className = 'ai-panel-toggle';
+  toggle.setAttribute('aria-label', 'About the AI assistant');
+  toggle.setAttribute('aria-expanded', 'false');
+  toggle.innerHTML =
+    '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#fff" stroke-width="2.6" ' +
+    'stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg>';
+  document.body.appendChild(toggle);
+
+  var panelOpen = false;
+  function setPanel(open) {
+    panelOpen = open;
+    panel.classList.toggle('ai-callout-show', open);
+    toggle.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    try { sessionStorage.setItem('aiPanelOpen', open ? '1' : '0'); } catch (e) {}
+  }
+  toggle.addEventListener('click', function () { setPanel(!panelOpen); });
+  panel.querySelector('.ai-callout-x').addEventListener('click', function () { setPanel(false); });
+
+  // Restore this session's choice; default collapsed.
+  var saved = null;
+  try { saved = sessionStorage.getItem('aiPanelOpen'); } catch (e) {}
+  if (saved === '1') {
+    if (reduceMotion) setPanel(true);
+    else setTimeout(function () { setPanel(true); }, 150);
   }
 })();

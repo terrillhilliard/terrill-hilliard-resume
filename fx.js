@@ -66,12 +66,13 @@
     // ~30% warm reds (brand crimson, deep red, red-orange). Nodes and their
     // connecting lines draw from this so the field reads colorful, not monotone.
     var PALETTE = [
-      [10,31,68], [10,31,68], [10,31,68], [10,31,68], [10,31,68], // navy base
+      [10,31,68], [10,31,68], [10,31,68], [10,31,68], // navy base
       [47,111,176],   // steel blue
       [63,184,224],   // azure pop
       [200,16,46],    // brand crimson
       [139,13,32],    // deep red
-      [255,90,31]     // red-orange
+      [255,90,31],    // red-orange
+      [214,40,57]     // bright red
     ];
     function pickCol() { return PALETTE[(Math.random() * PALETTE.length) | 0]; }
     function blendCol(a, b) { return [(a[0]+b[0])>>1, (a[1]+b[1])>>1, (a[2]+b[2])>>1]; }
@@ -437,7 +438,7 @@
       ctx.beginPath(); ctx.moveTo(vanishX, horizonY); ctx.lineTo(vanishX + (gc / 12) * w * 1.5, bottom); ctx.stroke();
     }
 
-    var pal = [[10,31,68],[10,31,68],[10,31,68],[47,111,176],[200,16,46],[139,13,32],[255,90,31]];
+    var pal = [[10,31,68],[10,31,68],[47,111,176],[200,16,46],[139,13,32],[255,90,31],[214,40,57]];
     var count = Math.floor((w * h) / 26000);
     var pts = [];
     for (var i = 0; i < count; i++) {
