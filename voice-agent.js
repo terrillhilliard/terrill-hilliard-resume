@@ -113,10 +113,8 @@
   panel.setAttribute('role', 'dialog');
   panel.innerHTML =
     '<button class="ai-callout-x" aria-label="Collapse">×</button>' +
-    '<p class="ai-callout-title"><span class="ai-callout-wave">🎙️</span> Talk to my AI twin</p>' +
-    '<p class="ai-callout-body">Tap the red mic to talk by voice. Ask it anything about my ' +
-    'experience, projects, or availability.</p>' +
-    '<p class="ai-callout-credit">Built on the same ElevenLabs stack I used to ship <strong>JURIS AI</strong>.</p>';
+    '<p class="ai-callout-body"><span class="ai-callout-wave">🎙️</span> Tap the red mic to talk by voice. ' +
+    'Ask it anything about my experience, projects, or availability.</p>';
   document.body.appendChild(panel);
 
   var toggle = document.createElement('button');
@@ -140,11 +138,12 @@
   toggle.addEventListener('click', function () { setPanel(!panelOpen); });
   panel.querySelector('.ai-callout-x').addEventListener('click', function () { setPanel(false); });
 
-  // Restore this session's choice; default collapsed.
+  // Default OPEN (popped up) to encourage clicking; respect a prior collapse
+  // this session so it doesn't re-open after the user dismisses it.
   var saved = null;
   try { saved = sessionStorage.getItem('aiPanelOpen'); } catch (e) {}
-  if (saved === '1') {
+  if (saved !== '0') {
     if (reduceMotion) setPanel(true);
-    else setTimeout(function () { setPanel(true); }, 150);
+    else setTimeout(function () { setPanel(true); }, 600);
   }
 })();
