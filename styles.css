@@ -1240,6 +1240,10 @@ a.project-card:hover .project-live-link{ color: var(--accent); border-color: var
   grid-template-columns: repeat(3, 1fr);
   gap: 18px;
 }
+.post-grid > .post-card:only-child{
+  grid-column: 1 / -1;
+  max-width: 420px;
+}
 .post-card{
   padding: 30px;
   display: flex;
@@ -1313,6 +1317,21 @@ a.project-card:hover .project-live-link{ color: var(--accent); border-color: var
   margin-top: 18px;
   font-size: 17px;
   color: var(--ink-dim);
+}
+.article-meta{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 22px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-faint);
+}
+.article-meta time{ color: var(--ink-dim); }
+.article-meta .dot{
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--ink-faint);
 }
 .article-body{
   margin-top: 48px;

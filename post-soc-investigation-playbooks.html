@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why Investigation Playbooks Beat Alert Memorization — Terrill Hilliard</title>
+<meta name="description" content="The gap between a beginner and a professional SOC analyst isn't knowledge — it's having a repeatable process to work through under pressure. Notes on building playbooks that hold up.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=20260709a">
+</head>
+<body>
+
+<canvas id="hero3d" aria-hidden="true"></canvas>
+
+<header class="nav-wrap">
+  <nav class="nav">
+    <a href="index.html#top" class="brand">
+      <svg class="brand-mark" viewBox="0 0 100 100" aria-hidden="true"><path d="M15,20 H85 M50,20 V85" stroke-linecap="round"/></svg>
+      <span>TERRILL HILLIARD</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html#about">About</a>
+      <a href="index.html#experience">Experience</a>
+      <a href="index.html#skills">Skills</a>
+      <a href="index.html#projects">Projects</a>
+      <a href="blog.html">Blog</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+    <a class="nav-social" href="https://www.linkedin.com/in/terrill-hilliard-a989482b8/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8h4V24h-4V8zM8 8h3.8v2.2h.05c.53-1 1.83-2.2 3.77-2.2 4.03 0 4.78 2.65 4.78 6.1V24h-4v-6.9c0-1.65-.03-3.77-2.3-3.77-2.3 0-2.65 1.8-2.65 3.65V24H8V8z"/></svg></a>
+    <a class="pill-btn nav-cta" href="https://calendly.com/terrillhilliard/30min" target="_blank" rel="noopener">Schedule Consultation</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div class="nav-mobile" id="navMobile">
+    <a href="index.html#about">About</a>
+    <a href="index.html#experience">Experience</a>
+    <a href="index.html#skills">Skills</a>
+    <a href="index.html#projects">Projects</a>
+    <a href="blog.html">Blog</a>
+    <a href="index.html#contact">Contact</a>
+    <a href="https://www.linkedin.com/in/terrill-hilliard-a989482b8/" target="_blank" rel="noopener">LinkedIn &#8599;</a>
+  </div>
+</header>
+
+<article class="article">
+  <a class="back-link" href="blog.html">&larr; Back to blog</a>
+  <span class="post-tag">SOC Operations</span>
+  <h1 class="article-title">Why Investigation Playbooks Beat Alert Memorization</h1>
+  <p class="article-dek">The gap between a beginner and a professional SOC analyst isn't knowledge alone — it's having a repeatable process to work through when the alert fires and the clock is running.</p>
+  <p class="article-meta">
+    <time datetime="2026-07-09">July 9, 2026</time>
+    <span class="dot" aria-hidden="true"></span>
+    <span>5 min read</span>
+  </p>
+
+  <div class="article-body">
+    <p>I saw a post making the rounds recently that put something well: the process matters more than the tool. It's a simple line, but it names the actual difference between a new analyst and an experienced one. It isn't that the experienced analyst knows more signatures, more CVEs, or more log formats off the top of their head. It's that they have a structured way to move through an investigation regardless of what's in front of them &mdash; and that structure is what makes them fast <em>and</em> accurate instead of just fast.</p>
+
+    <h2>Memorization doesn't scale</h2>
+    <p>Early on, it's tempting to treat SOC work like a trivia problem &mdash; memorize what a Mimikatz alert looks like, memorize the port range for a common C2 framework, memorize the exact fields in a specific vendor's log schema. That knowledge helps, but it's brittle. Attackers change tooling, vendors change log formats, and the alert you memorized last month gets replaced by a slightly different one this month. What doesn't change nearly as often is the <em>shape</em> of the investigation: what to check first, what to rule out, what evidence closes the case.</p>
+
+    <h2>What a real playbook actually contains</h2>
+    <p>A useful investigation playbook isn't a wall of text — it's a short, ordered checklist built around one specific alert type. For each of the common categories, the shape looks similar:</p>
+    <ul>
+      <li><strong>Phishing / credential theft</strong> &mdash; confirm delivery, check for clicks or credential submission, pull auth logs for the affected account, and scope any lateral use of those credentials.</li>
+      <li><strong>Malware infection</strong> &mdash; identify the process tree, confirm persistence mechanisms, check for outbound C2 traffic, and determine whether it spread before containment.</li>
+      <li><strong>Brute-force / credential attacks</strong> &mdash; establish the source, check for a successful login among the failures, and confirm whether MFA actually blocked it or was bypassed.</li>
+      <li><strong>Privilege escalation</strong> &mdash; identify the starting privilege level, the technique used, and every action taken after the escalation succeeded.</li>
+      <li><strong>Data exfiltration</strong> &mdash; identify what left, where it went, and whether the volume or destination matches normal business activity.</li>
+      <li><strong>Web application attacks</strong> &mdash; confirm whether the payload executed server-side, check for follow-on requests from the same source, and validate whether WAF rules actually caught it.</li>
+    </ul>
+    <p>None of these require memorizing a specific product's UI. They require knowing what question to ask next, in order, every time.</p>
+
+    <h2>A playbook in motion: a phishing alert</h2>
+    <p>Say a phishing alert fires for a finance-department user. Without a playbook, the instinct is to start reading raw email headers and guessing. With one, the path is already laid out: confirm the message was actually delivered (not just blocked at the gateway), check whether the user clicked or submitted anything, pull sign-in logs for that account across the alert window, and check for any new mail-forwarding rules or app registrations tied to it. If credentials were touched, the playbook branches into a lateral-movement check. If they weren't, it closes as a near-miss with the same level of documentation either way. The point isn't that this is clever &mdash; it's that it's the same five steps whether it's 9am or 2am, whether it's your first phishing case or your fiftieth.</p>
+
+    <h2>Building your own playbook library</h2>
+    <p>Playbooks earn their value by being written down before you need them, not improvised during an incident. A few things make them actually useful in practice rather than just documentation for its own sake:</p>
+    <ul>
+      <li>Write them from real incidents, not hypotheticals &mdash; the details that saved time in an actual case belong in the playbook.</li>
+      <li>Keep each one short enough to scan in under a minute while an alert is active.</li>
+      <li>Review them after every incident that didn't fit cleanly, and update the branch that failed.</li>
+      <li>Map each step back to a MITRE ATT&amp;CK technique where it applies, so the playbook stays anchored to observable behavior instead of vendor-specific alert names.</li>
+    </ul>
+
+    <h2>The practical takeaway</h2>
+    <p>Tools and alert names will keep changing. What holds up is a repeatable process that turns "I think something's wrong" into a documented, defensible conclusion &mdash; every time, regardless of who's on shift. That's the actual skill being tested during an incident, and it's the one that's worth building deliberately instead of hoping it accumulates on its own.</p>
+  </div>
+
+  <div class="article-cta">
+    <a class="pill-btn primary" href="index.html#contact">Get In Touch</a>
+    <a class="pill-btn ghost" href="blog.html">More Posts</a>
+  </div>
+</article>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <a href="index.html#top" class="brand">
+      <svg class="brand-mark" viewBox="0 0 100 100" aria-hidden="true"><path d="M15,20 H85 M50,20 V85" stroke-linecap="round"/></svg>
+      <span>TERRILL HILLIARD</span>
+    </a>
+    <div class="footer-cols">
+      <div>
+        <h4>Contact</h4>
+        <a href="mailto:terrillhilliard96@gmail.com">Email</a>
+        <a href="tel:8189340699">Phone</a>
+        <a href="https://www.linkedin.com/in/terrill-hilliard-a989482b8/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+      <div>
+        <h4>Site</h4>
+        <a href="index.html#about">About</a>
+        <a href="index.html#experience">Experience</a>
+        <a href="index.html#skills">Skills</a>
+        <a href="index.html#projects">Projects</a>
+        <a href="blog.html">Blog</a>
+      </div>
+    </div>
+  </div>
+  <p class="footer-copy">&copy; 2026 Terrill Hilliard. All rights reserved.</p>
+</footer>
+
+<script src="fx.js?v=20260709a"></script>
+<script src="script.js?v=20260709a"></script>
+</body>
+</html>
