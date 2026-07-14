@@ -206,3 +206,38 @@
     a.addEventListener('click', () => menu.classList.remove('open'))
   );
 })();
+
+// Contact form — composes a pre-filled email (no backend on this static site)
+(function () {
+  const form = document.getElementById('contactForm');
+  const status = document.getElementById('formStatus');
+  if (!form || !status) return;
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!form.reportValidity()) return;
+
+    const firstName = form.firstName.value.trim();
+    const lastName = form.lastName.value.trim();
+    const phone = form.phone.value.trim();
+    const email = form.email.value.trim();
+    const message = form.message.value.trim();
+
+    const subject = 'Portfolio contact — ' + firstName + ' ' + lastName;
+    const bodyLines = [
+      'Name: ' + firstName + ' ' + lastName,
+      'Phone: ' + phone,
+      'Email: ' + email,
+      '',
+      'Message:',
+      message || '(none)'
+    ];
+    const mailto =
+      'mailto:terrillhilliard96@gmail.com' +
+      '?subject=' + encodeURIComponent(subject) +
+      '&body=' + encodeURIComponent(bodyLines.join('\n'));
+
+    window.location.href = mailto;
+    status.textContent = 'Opening your email client to send this to Terrill…';
+  });
+})();
