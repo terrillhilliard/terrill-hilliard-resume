@@ -166,7 +166,8 @@ h1,h2,h3,p{ margin:0; }
   padding: 4px;
 }
 .ai-callout-x:hover{ color: var(--ink); }
-.ai-callout-wave{ font-size: 12.5px; }
+.ai-callout-wave{ display: inline-flex; vertical-align: -2px; color: var(--accent); }
+.ai-callout-wave svg{ width: 13px; height: 13px; }
 .ai-callout-body{
   margin: 0;
   font-size: 11.5px;
@@ -1520,7 +1521,8 @@ a.project-card:hover .project-live-link{ color: var(--accent); border-color: var
   box-shadow: inset 0 0 0 1.5px rgba(255,255,255,0.12);
 }
 .feed-item-main{ flex: 1; min-width: 0; }
-.feed-pin{ font-size: 10.5px; color: rgba(255,255,255,0.45); margin-bottom: 6px; letter-spacing: 0.04em; }
+.feed-pin{ display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; color: rgba(255,255,255,0.45); margin-bottom: 6px; letter-spacing: 0.04em; }
+.feed-pin svg{ width: 11px; height: 11px; }
 .feed-item-head{ display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px; }
 .fi-name{ font-family: "Inter", sans-serif; font-weight: 700; font-size: 14px; color: #fff; }
 .fi-handle, .fi-sep, .fi-time{ font-size: 12px; color: rgba(255,255,255,0.42); }

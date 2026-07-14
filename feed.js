@@ -135,7 +135,8 @@
     var p = {
       star: '<path d="M12 2l2.9 6.3 6.9.6-5.2 4.6 1.6 6.8L12 17.3 5.8 20.9l1.6-6.8L2.2 8.9l6.9-.6z"/>',
       copy: '<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>',
-      share: '<path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="M8 7l4-4 4 4"/>'
+      share: '<path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="M8 7l4-4 4 4"/>',
+      pin: '<path d="M12 2v6l4 4H8l4-4"/><path d="M12 12v10"/>'
     };
     return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" ' +
            'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + p[name] + '</svg>';
@@ -157,7 +158,7 @@
       item.innerHTML =
         '<span class="feed-item-av" aria-hidden="true">T</span>' +
         '<div class="feed-item-main">' +
-          (t.pinned ? '<div class="feed-pin">📌 pinned</div>' : '') +
+          (t.pinned ? '<div class="feed-pin">' + icon('pin') + 'pinned</div>' : '') +
           '<div class="feed-item-head">' +
             '<span class="fi-name">Terrill Hilliard</span>' +
             '<span class="fi-handle">@terrillhilliard</span>' +
@@ -284,7 +285,7 @@
         break;
       case 'whoami': out("terrill — IT support & security operations. red + blue + AI.", 'ok'); break;
       case 'date': out(new Date().toString(), 'ok'); break;
-      case 'sudo': out("nice try 🙂", 'err'); break;
+      case 'sudo': out("permission denied: nice try", 'err'); break;
       default: out("command not found: " + cmd + " — type 'help'", 'err');
     }
   }
