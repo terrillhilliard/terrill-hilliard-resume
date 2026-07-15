@@ -207,6 +207,60 @@
   );
 })();
 
+// Portfolio slider — AI web apps built through JURIS AI (drag-to-scroll + arrow nav)
+(function () {
+  var track = document.getElementById('portfolioTrack');
+  var prevBtn = document.getElementById('portfolioPrev');
+  var nextBtn = document.getElementById('portfolioNext');
+  if (!track || !prevBtn || !nextBtn) return;
+
+  function cardStep() {
+    var card = track.querySelector('.portfolio-card');
+    if (!card) return 360;
+    var gap = parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap || '20');
+    return card.getBoundingClientRect().width + gap;
+  }
+
+  function updateNav() {
+    var max = track.scrollWidth - track.clientWidth - 2;
+    prevBtn.disabled = track.scrollLeft <= 2;
+    nextBtn.disabled = max <= 0 || track.scrollLeft >= max;
+  }
+
+  prevBtn.addEventListener('click', function () {
+    track.scrollBy({ left: -cardStep(), behavior: 'smooth' });
+  });
+  nextBtn.addEventListener('click', function () {
+    track.scrollBy({ left: cardStep(), behavior: 'smooth' });
+  });
+  track.addEventListener('scroll', updateNav, { passive: true });
+  window.addEventListener('resize', updateNav);
+  updateNav();
+
+  // Drag-to-scroll
+  var isDown = false, startX = 0, startScroll = 0, moved = false;
+  track.addEventListener('pointerdown', function (e) {
+    isDown = true; moved = false;
+    startX = e.clientX;
+    startScroll = track.scrollLeft;
+    track.classList.add('dragging');
+  });
+  window.addEventListener('pointermove', function (e) {
+    if (!isDown) return;
+    var dx = e.clientX - startX;
+    if (Math.abs(dx) > 4) moved = true;
+    track.scrollLeft = startScroll - dx;
+  });
+  window.addEventListener('pointerup', function () {
+    if (!isDown) return;
+    isDown = false;
+    track.classList.remove('dragging');
+  });
+  track.addEventListener('click', function (e) {
+    if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; }
+  }, true);
+})();
+
 // Contact form — composes a pre-filled email (no backend on this static site)
 (function () {
   const form = document.getElementById('contactForm');
