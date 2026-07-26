@@ -933,8 +933,8 @@ a.project-live-link:hover{ color: var(--accent); border-color: var(--accent); }
 }
 .project-card-shot img{
   width: 100%;
+  height: 190px;
   display: block;
-  aspect-ratio: 16 / 9;
   object-fit: cover;
   object-position: top;
 }
